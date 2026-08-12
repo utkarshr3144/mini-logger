@@ -17,12 +17,20 @@ export const createLogServices = async(
     return log;
 };
 
-export const getLogsServices = async() => {
-
+export const getLogsServices = async(
+    level?: string,
+    service?: string
+) => {
+    
     const logs = await prisma.log.findMany({
+        where: {
+            ...(level && { level }),
+            ...(service && { service })
+        },
         orderBy: {
             timestamp: "desc"
         }
-    })
+    });
+
     return logs;
 };

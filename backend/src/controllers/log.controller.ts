@@ -1,6 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
 import { createLogServices, getLogsServices } from "../services/log.services.js";
-import { Suspense } from "react";
 
 export const createLog = async(
     req: Request,
@@ -33,7 +32,12 @@ export const getLogs = async(
     next: NextFunction
 ) => {
     try {
-        const logs = await getLogsServices();
+
+        const { level, service } = req.query;
+        const logs = await getLogsServices(
+            level as string | undefined,
+            service as string | undefined
+        );
 
         return res.status(200).json({
             success: true,
