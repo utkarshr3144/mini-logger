@@ -15,4 +15,14 @@ export const createLogServices = async(
         }
     })
     return log;
-}
+};
+
+export const getLogsServices = async() => {
+
+    const logs = await prisma.log.findMany({
+        orderBy: {
+            timestamp: "desc"
+        }
+    })
+    return logs;
+};
