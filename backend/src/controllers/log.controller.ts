@@ -33,10 +33,12 @@ export const getLogs = async(
 ) => {
     try {
 
-        const { level, service } = req.query;
+        const { level, service, page, limit } = req.query;
         const logs = await getLogsServices(
             level as string | undefined,
-            service as string | undefined
+            service as string | undefined,
+            Number(page) || 1,
+            Number(limit) || 10
         );
 
         return res.status(200).json({

@@ -19,9 +19,12 @@ export const createLogServices = async(
 
 export const getLogsServices = async(
     level?: string,
-    service?: string
+    service?: string,
+    page: number = 1,
+    limit: number = 10
 ) => {
-    
+    const skip = (page - 1) * limit;
+
     const logs = await prisma.log.findMany({
         where: {
             ...(level && { level }),
@@ -29,7 +32,9 @@ export const getLogsServices = async(
         },
         orderBy: {
             timestamp: "desc"
-        }
+        },
+        skip, 
+        take: limit
     });
 
     return logs;
